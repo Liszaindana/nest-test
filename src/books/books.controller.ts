@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { BooksService } from './books.service.js';
-import { CreeateBookDto } from './dto/create-book.dto.js';
+import { CreateBookDto } from './dto/create-book.dto.js';
 
 @Controller('books') //decorator
 export class BooksController {
@@ -14,19 +14,19 @@ export class BooksController {
     }
     //save data
     @Post()
-    create(@Body() createBookDto: CreeateBookDto) {
+    create(@Body() createBookDto: CreateBookDto) {
         return this.booksService.create(createBookDto);
     }
 
     //update data
     @Put(':id')
-    update(@Param('id') id: string, @Body() createBookDto: CreeateBookDto) {
+    update(@Param('id') id: string, @Body() createBookDto: CreateBookDto) {
         return this.booksService.update(id, createBookDto);
     }
 
     //delete data
     @Delete(':id')
-    remove(@Param('id') id: string, @Body() createBookDto: CreeateBookDto) : string {
+    remove(@Param('id') id: string, @Body() createBookDto: CreateBookDto) : string {
         return this.booksService.remove(id) ? `Book with ID ${id} has been removed.` : `Book with ID ${id} not found.`;
     }
 }
