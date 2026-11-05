@@ -1,33 +1,34 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BooksService } from './books.service.js';
 import { CreateBookDto } from './dto/create-book.dto.js';
+import { UpdateBookDto } from './dto/update-book.dto.js';
 
-@Controller('books') //decorator
+@Controller('books')
 export class BooksController {
+  constructor(private readonly booksService: BooksService) {}
 
-    constructor(private readonly booksService: BooksService) {}
+  @Post()
+  create(@Body() createBookDto: CreateBookDto) {
+    return this.booksService.create(createBookDto);
+  }
 
-    //show data
-    @Get()
-    findAll() {
-        return this.booksService.findAll();
-    }
-    //save data
-    @Post()
-    create(@Body() createBookDto: CreateBookDto) {
-        return this.booksService.create(createBookDto);
-    }
+  @Get()
+  findAll() {
+    return this.booksService.findAll();
+  }
 
-    //update data
-    @Put(':id')
-    update(@Param('id') id: string, @Body() createBookDto: CreateBookDto) {
-        return this.booksService.update(id, createBookDto);
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.booksService.findOne(id);
+  }
 
-    //delete data
-    @Delete(':id')
-    remove(@Param('id') id: string, @Body() createBookDto: CreateBookDto) : string {
-        return this.booksService.remove(id) ? `Book with ID ${id} has been removed.` : `Book with ID ${id} not found.`;
-    }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+    return this.booksService.update(id, updateBookDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.booksService.remove(id);
+  }
 }
-
